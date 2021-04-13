@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_docrors before INSERT ON doctors FOR each row BEGIN    SELECT sq_doctors.NEXTVAL    INTO :new.doctor_id    FROM dual; END;

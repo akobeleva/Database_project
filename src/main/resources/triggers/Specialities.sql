@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_specialities before INSERT ON specialities FOR each row BEGIN SELECT sq_specialities.NEXTVAL INTO :new.speciality_id FROM dual; END;
