@@ -1,20 +1,31 @@
 package GUI;
 
 import DAL.CreateDatabase;
-import GUI.DoctorsView.DoctorsTable;
+import GUI.Table.TableView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 public class MainWindow extends JFrame{
-    private String [] nameTables = {"Doctors", "Hospitals", "Specialities"};
+    private Map<String, String> nameTables = new HashMap<String, String>(){{
+            put("Doctors", "GUI.Table.DoctorsTable");
+            put("Specialities", "GUI.Table.SpecialitiesTable");
+            put("Hospitals", "GUI.Table.HospitalsTable");
+            put("Polyclinics", "GUI.Table.PolyclinicsTable");
+            put("Buildings", "GUI.Table.BuildingsTable");
+            put("Departments", "GUI.Table.DepartmentsTable");
+        }
+    };
     private JPanel mainPanel;
     private JLabel tablesLabel;
-    private JTable table;
+    private JTable listTable;
     private JButton createTablesButton;
 
     public MainWindow(){
@@ -35,15 +46,28 @@ public class MainWindow extends JFrame{
                 return false;
             }
         };
-        Vector tables = new Vector(Arrays.asList(nameTables));
+        Vector<String> tables = new Vector(Arrays.asList(nameTables.keySet().toArray()));
         dtm.addColumn("Tables", tables);
-        table.setModel(dtm);
-        table.addMouseListener(new MouseAdapter() {
+        listTable.setModel(dtm);
+        listTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2){
-                    int row = table.rowAtPoint(e.getPoint());
-                    DoctorsTable doctorsTable = new DoctorsTable(nameTables[row]);
+                    int rowIndex = listTable.rowAtPoint(e.getPoint());
+                    String row = tables.get(rowIndex);
+                    try {
+                        TableView tableView = (TableView)Class.forName(nameTables.get(row)).getConstructor(String.class).newInstance(row);
+                    } catch (InstantiationException instantiationException) {
+                        instantiationException.printStackTrace();
+                    } catch (IllegalAccessException illegalAccessException) {
+                        illegalAccessException.printStackTrace();
+                    } catch (InvocationTargetException invocationTargetException) {
+                        invocationTargetException.printStackTrace();
+                    } catch (NoSuchMethodException noSuchMethodException) {
+                        noSuchMethodException.printStackTrace();
+                    } catch (ClassNotFoundException classNotFoundException) {
+                        classNotFoundException.printStackTrace();
+                    }
                 }
             }
         });

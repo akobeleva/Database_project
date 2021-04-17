@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_polyclinics before INSERT ON polyclinics FOR each row BEGIN SELECT sq_polyclinics.NEXTVAL INTO :new.polyclinic_id FROM dual; END;

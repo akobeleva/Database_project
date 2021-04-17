@@ -85,21 +85,4 @@ public class ConnectionManager {
             throwables.printStackTrace();
         }
     }
-
-    public static Vector getMetaData(){
-        Vector nameTables = null;
-        try {
-            DatabaseMetaData metaData = conn.getConnection().getMetaData();
-            String [] types = {"TABLE"};
-            ResultSet tables = metaData.getTables(null, null, "%", types);
-            while (tables.next()) {
-                nameTables.add(tables.getString("TABLE_NAME"));
-                System.out.println(tables.getString("TABLE_NAME"));
-            }
-            tables.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return nameTables;
-    }
 }

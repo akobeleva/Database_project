@@ -23,7 +23,6 @@ public class MyConnection {
         Properties DB_PROPS = new Properties();
         DB_PROPS.setProperty("user", username);
         DB_PROPS.setProperty("password", password);
-
         conn = DriverManager.getConnection(DB_URL, DB_PROPS);
     }
 

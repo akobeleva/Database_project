@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_buildings before INSERT ON buildings FOR each row BEGIN SELECT sq_buildings.NEXTVAL INTO :new.building_id FROM dual; END;

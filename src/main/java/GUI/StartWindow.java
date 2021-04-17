@@ -21,6 +21,7 @@ public class StartWindow extends JFrame {
                         "jdbc:oracle:thin:@84.237.50.81:1521:");
                 ConnectionManager connManager = new ConnectionManager(conn);
                 MainWindow window = new MainWindow();
+                this.setVisible(false);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }

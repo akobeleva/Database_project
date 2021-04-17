@@ -1,0 +1,3 @@
+INSERT INTO polyclinics (name, address, phone_number, count_cabinets) VALUES ('Городская поликлиника №1', 'пр-т Лиговский, д. 7', '89134698713', 45)
+INSERT INTO polyclinics (name, address, phone_number, count_cabinets) VALUES ('Областная поликлиника №15', 'ул. Виноградная, д. 127', '89651349756', 38)
+INSERT INTO polyclinics (name, address, phone_number, count_cabinets) VALUES ('Поликлиника №18', 'ул. Крылова, д. 63', '89134567319', 25)

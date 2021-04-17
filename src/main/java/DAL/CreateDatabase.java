@@ -13,8 +13,11 @@ public class CreateDatabase {
     public CreateDatabase(){
         tablesName = new LinkedList<>();
         tablesName.add("Specialities.sql");
+        tablesName.add("Polyclinics.sql");
         tablesName.add("Doctors.sql");
         tablesName.add("Hospitals.sql");
+        tablesName.add("Buildings.sql");
+        tablesName.add("Departments.sql");
     }
 
     private String readScriptFromFile(String path){
