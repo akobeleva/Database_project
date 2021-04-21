@@ -1,13 +1,14 @@
-package GUI.CreateNewRow;
+package GUI.Row;
 
 import DAL.ConnectionManager;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 
 import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-public class CreateHospital extends CreateNewRowView {
+public class HospitalRowView extends RowView {
     private JTextField nameTextField;
     private JTextField addressTextField;
     private JComboBox comboBox;
@@ -21,8 +22,8 @@ public class CreateHospital extends CreateNewRowView {
     private JButton OkButton;
     private Map<String, String> doctors = new HashMap<>();
 
-    public CreateHospital(String viewName) {
-        super(viewName);
+    public HospitalRowView(String viewName, Mode mode) {
+        super(viewName, mode);
         this.setContentPane(mainPanel);
         OkButton.addActionListener(e -> {
             okActionListener();
@@ -39,7 +40,11 @@ public class CreateHospital extends CreateNewRowView {
 
     @Override
     public void insertRow() {
-        ConnectionManager.insert("INSERT INTO hospitals (name, address, main_doctor_id, phone_number) VALUES (" + getRowFromForm() + ")");
+        if (mode == Mode.CREATE){
+            ConnectionManager.insert("INSERT INTO hospitals (name, address, main_doctor_id, phone_number) VALUES ("
+                    + getRowFromForm() + ")");
+        }
+        else ConnectionManager.executeQuery("UPDATE hospitals SET " + getRowFromForm() + "WHERE hospital_id = " + selectedRow);
     }
 
     @Override
@@ -48,7 +53,24 @@ public class CreateHospital extends CreateNewRowView {
         String address = addressTextField.getText();
         String mainDoctor = doctors.get(comboBox.getSelectedItem());
         String phone = phoneTextField.getText();
-        String row = new String("'" + name + "'" + ", " + "'" + address + "'" + ", " + "'" + mainDoctor + "'" + ", " + phone);
+        String row;
+        if (mode == Mode.CREATE){
+            row = "'" + name + "'" + ", " + "'" + address + "'" + ", " + "'" + mainDoctor + "'" + ", " + phone;
+        }
+        else {
+            row = "name = " + "'" + name + "'," + "address = " + "'" + address + "'," + "main_doctor_id = "
+                    + mainDoctor +"," + "phone_number = " +  "'" + phone + "'";
+        }
         return row;
+    }
+
+    @Override
+    public void fillFields() {
+        Vector vectorRows = ConnectionManager.select("SELECT * from hospitals WHERE hospital_id = " + selectedRow, 5);
+        Vector<String> row = (Vector<String>) vectorRows.get(0);
+        nameTextField.setText(row.get(1));
+        addressTextField.setText(row.get(2));
+        comboBox.setSelectedItem(row.get(3));
+        phoneTextField.setText(row.get(4));
     }
 }

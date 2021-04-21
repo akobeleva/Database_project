@@ -3,6 +3,7 @@ package DAL;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +23,12 @@ public class CreateDatabase {
 
     private String readScriptFromFile(String path){
         InputStream is = this.getClass().getResourceAsStream("/" + path);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new InputStreamReader(is, "utf-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
         return reader.lines().collect(Collectors.joining());
     }
@@ -62,7 +68,12 @@ public class CreateDatabase {
     private List<String> readListOfScriptsFromFile(String path){
         InputStream is = this.getClass().getResourceAsStream("/" + path);
         System.out.println(is);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new InputStreamReader(is,"utf-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         List<String> queries = new LinkedList<>();
         Object[] lines = reader.lines().toArray();
 

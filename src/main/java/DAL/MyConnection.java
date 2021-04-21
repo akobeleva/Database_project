@@ -1,7 +1,5 @@
 package DAL;
 
-import oracle.jdbc.proxy.annotation.Pre;
-
 import java.sql.*;
 import java.util.*;
 

@@ -46,7 +46,7 @@ public abstract class TableView extends JFrame{
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createNewRow();
+                editRow(selectedRow);
             }
         });
         popup.add(menuItem);
@@ -71,11 +71,9 @@ public abstract class TableView extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON3){
-                    System.out.println("right");
                     popup.show(e.getComponent(), e.getX(), e.getY());
                     int row = table.rowAtPoint(e.getPoint());
                     String id = (String) table.getValueAt(row, 0);
-                    System.out.println(id);
                     updateSelectedId(Integer.parseInt(id));
                 }
             }
@@ -90,7 +88,7 @@ public abstract class TableView extends JFrame{
 
     public abstract void createNewRow();
 
-    public abstract void editRow();
+    public abstract void editRow(Integer id);
 
     public abstract void deleteRow(Integer id);
 }

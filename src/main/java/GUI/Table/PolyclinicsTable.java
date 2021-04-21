@@ -1,7 +1,8 @@
 package GUI.Table;
 
 import DAL.ConnectionManager;
-import GUI.CreateNewRow.CreatePolyclinic;
+import GUI.Row.Mode;
+import GUI.Row.PolyclinicRowView;
 
 import java.util.Arrays;
 import java.util.Vector;
@@ -23,12 +24,14 @@ public class PolyclinicsTable extends TableView{
 
     @Override
     public void createNewRow() {
-        CreatePolyclinic createPolyclinic = new CreatePolyclinic("Добавление поликлиники");
+        PolyclinicRowView createPolyclinic = new PolyclinicRowView("Добавление поликлиники", Mode.CREATE);
     }
 
     @Override
-    public void editRow() {
-
+    public void editRow(Integer id) {
+        PolyclinicRowView editPolyclinic = new PolyclinicRowView("Изменение поликлиники", Mode.EDIT);
+        editPolyclinic.setSelectedRow(id);
+        editPolyclinic.fillFields();
     }
 
     @Override

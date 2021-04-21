@@ -1,4 +1,4 @@
-package GUI.CreateNewRow;
+package GUI.Row;
 
 import DAL.ConnectionManager;
 
@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-public class CreateBuilding extends CreateNewRowView{
+public class BuildingRowView extends RowView {
     private JLabel label;
     private JComboBox comboBox;
     private JLabel hospitalLabel;
@@ -21,8 +21,8 @@ public class CreateBuilding extends CreateNewRowView{
     private JPanel mainPanel;
     private Map<String, String> hospitals = new HashMap<>();
 
-    public CreateBuilding(String viewName){
-        super(viewName);
+    public BuildingRowView(String viewName, Mode mode){
+        super(viewName, mode);
         this.setContentPane(mainPanel);
 
         OkButton.addActionListener(e->{
@@ -40,8 +40,11 @@ public class CreateBuilding extends CreateNewRowView{
 
     @Override
     public void insertRow() {
-        ConnectionManager.insert("INSERT INTO buildings (hospital_id, building_number, phone_number, count_departments) VALUES (" +
-                getRowFromForm() + ")");
+        if (mode == Mode.CREATE){
+            ConnectionManager.insert("INSERT INTO buildings (hospital_id, building_number, phone_number, count_departments) VALUES (" +
+                    getRowFromForm() + ")");
+        }
+        else ConnectionManager.executeQuery("UPDATE buildings SET " + getRowFromForm() + "WHERE building_id = " + selectedRow);
     }
 
     @Override
@@ -50,8 +53,24 @@ public class CreateBuilding extends CreateNewRowView{
         String buildNumber = buildNumberTextField.getText();
         String phoneNumber = phoneTextField.getText();
         String countDep = countDepTextField.getText();
-        String row = new String("'" + hospital_id + "'" + ", " + "'" + buildNumber + "'" + ", " + "'" + phoneNumber + "'"
-                + ", " + countDep);
+        String row;
+        if (mode == Mode.CREATE) {
+            row = "'" + hospital_id + "'" + ", " + "'" + buildNumber + "'" + ", " + "'" + phoneNumber + "'" + ", " + countDep;
+        }
+        else {
+            row  = "hospital_id = " + "'" + hospital_id + "'," + "building_number = " + "'" + buildNumber + "'," + "phone_number = "
+                    + "'" + phoneNumber + "'," + "count_departments = " + countDep;
+        }
         return row;
+    }
+
+    @Override
+    public void fillFields(){
+        Vector vectorRows = ConnectionManager.select("SELECT * from buildings WHERE building_id = " + selectedRow, 5);
+        Vector<String> row = (Vector<String>) vectorRows.get(0);
+        comboBox.setSelectedItem(row.get(1));
+        buildNumberTextField.setText(row.get(2));
+        phoneTextField.setText(row.get(3));
+        countDepTextField.setText(row.get(4));
     }
 }

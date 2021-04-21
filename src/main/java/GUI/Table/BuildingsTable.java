@@ -1,7 +1,8 @@
 package GUI.Table;
 
 import DAL.ConnectionManager;
-import GUI.CreateNewRow.CreateBuilding;
+import GUI.Row.BuildingRowView;
+import GUI.Row.Mode;
 
 import java.util.Arrays;
 import java.util.Vector;
@@ -24,12 +25,14 @@ public class BuildingsTable extends TableView{
 
     @Override
     public void createNewRow() {
-        CreateBuilding createBuilding = new CreateBuilding("Добавление отделения");
+        BuildingRowView createBuilding = new BuildingRowView("Добавление корпуса", Mode.CREATE);
     }
 
     @Override
-    public void editRow() {
-
+    public void editRow(Integer id) {
+        BuildingRowView editBuilding = new BuildingRowView("Изменение корпуса", Mode.EDIT);
+        editBuilding.setSelectedRow(id);
+        editBuilding.fillFields();
     }
 
     @Override

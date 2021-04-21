@@ -1,7 +1,8 @@
 package GUI.Table;
 
 import DAL.ConnectionManager;
-import GUI.CreateNewRow.CreateDepartment;
+import GUI.Row.DepartmentRowView;
+import GUI.Row.Mode;
 
 import java.util.Arrays;
 import java.util.Vector;
@@ -23,12 +24,14 @@ public class DepartmentsTable extends TableView{
 
     @Override
     public void createNewRow() {
-        CreateDepartment createDepartment = new CreateDepartment("Добавление отделения");
+        DepartmentRowView createDepartment = new DepartmentRowView("Добавление отделения", Mode.CREATE);
     }
 
     @Override
-    public void editRow() {
-
+    public void editRow(Integer id) {
+        DepartmentRowView editDepartment = new DepartmentRowView("Изменение отделения", Mode.EDIT);
+        editDepartment.setSelectedRow(id);
+        editDepartment.fillFields();
     }
 
     @Override

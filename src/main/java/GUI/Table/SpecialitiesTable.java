@@ -1,7 +1,8 @@
 package GUI.Table;
 
 import DAL.ConnectionManager;
-import GUI.CreateNewRow.CreateSpeciality;
+import GUI.Row.Mode;
+import GUI.Row.SpecialityRowView;
 
 import java.util.Arrays;
 import java.util.Vector;
@@ -23,12 +24,14 @@ public class SpecialitiesTable extends TableView {
 
     @Override
     public void createNewRow() {
-        CreateSpeciality cr = new CreateSpeciality("Добавление специальности");
+        SpecialityRowView createSpeciality = new SpecialityRowView("Добавление специальности", Mode.CREATE);
     }
 
     @Override
-    public void editRow() {
-
+    public void editRow(Integer id) {
+        SpecialityRowView editSpeciality = new SpecialityRowView("Изменение специальности", Mode.EDIT);
+        editSpeciality.setSelectedRow(id);
+        editSpeciality.fillFields();
     }
 
     @Override

@@ -1,7 +1,8 @@
 package GUI.Table;
 
 import DAL.ConnectionManager;
-import GUI.CreateNewRow.CreateHospital;
+import GUI.Row.HospitalRowView;
+import GUI.Row.Mode;
 
 import java.util.Arrays;
 import java.util.Vector;
@@ -24,12 +25,14 @@ public class HospitalsTable extends TableView{
 
     @Override
     public void createNewRow() {
-        CreateHospital createHospital = new CreateHospital("Добавление больницы");
+        HospitalRowView createHospital = new HospitalRowView("Добавление больницы", Mode.CREATE);
     }
 
     @Override
-    public void editRow() {
-
+    public void editRow(Integer id) {
+        HospitalRowView editHospital = new HospitalRowView("зменение больницы", Mode.EDIT);
+        editHospital.setSelectedRow(id);
+        editHospital.fillFields();
     }
 
     @Override

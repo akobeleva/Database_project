@@ -66,17 +66,6 @@ public class ConnectionManager {
         }
         return resultVector;
     }
-    /*public List<List<String>> select(String sqlQuery){
-        List<List<String>> list = new LinkedList<>();
-
-        ArrayList resultList = new ArrayList<>();
-        Statement statement = conn.createStatement();
-        ResultSet result = statement.executeQuery(sqlQuery);
-        while (result.next()){
-            ArrayList<String> list = new ArrayList<>();
-            resultList.add()
-        }
-    }*/
 
     public static void delete(String query) {
         try (PreparedStatement preStatement = conn.getConnection().prepareStatement(query)) {
