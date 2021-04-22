@@ -39,10 +39,7 @@ public class DoctorRowView extends RowView {
             specialities.put(vec.get(1), vec.get(0));
             comboBox.addItem(vec.get(1));
         }
-
-        //if (mode == Mode.EDIT){
-          //  fillFields();
-        //}
+        comboBox.setSelectedIndex(-1);
 
         pack();
     }

@@ -17,11 +17,10 @@ public class MyConnection {
         TimeZone.setDefault(timeZone);
         Locale.setDefault(Locale.ENGLISH);
 
-        String DB_URL = url;
         Properties DB_PROPS = new Properties();
         DB_PROPS.setProperty("user", username);
         DB_PROPS.setProperty("password", password);
-        conn = DriverManager.getConnection(DB_URL, DB_PROPS);
+        conn = DriverManager.getConnection(url, DB_PROPS);
     }
 
     public void close() throws SQLException {

@@ -15,18 +15,21 @@ import java.util.Vector;
 
 public class MainWindow extends JFrame{
     private Map<String, String> nameTables = new HashMap<String, String>(){{
-            put("Doctors", "GUI.Table.DoctorsTable");
-            put("Specialities", "GUI.Table.SpecialitiesTable");
-            put("Hospitals", "GUI.Table.HospitalsTable");
-            put("Polyclinics", "GUI.Table.PolyclinicsTable");
-            put("Buildings", "GUI.Table.BuildingsTable");
-            put("Departments", "GUI.Table.DepartmentsTable");
+            put("Врачи", "GUI.Table.DoctorsTable");
+            put("Специальности", "GUI.Table.SpecialitiesTable");
+            put("Больницы", "GUI.Table.HospitalsTable");
+            put("Поликлиники", "GUI.Table.PolyclinicsTable");
+            put("Корпусы", "GUI.Table.BuildingsTable");
+            put("Отделения", "GUI.Table.DepartmentsTable");
+            put("Врачи больниц", "GUI.Table.DoctorsOfHospitalsTable");
+            put("Врачи поликлиник", "GUI.Table.DoctorsOfPolyclinicsTable");
         }
     };
     private JPanel mainPanel;
     private JLabel tablesLabel;
     private JTable listTable;
     private JButton createTablesButton;
+    private JButton requesButton;
 
     public MainWindow(){
         this.setTitle("Информационная система медицинских организаций");
@@ -38,6 +41,10 @@ public class MainWindow extends JFrame{
         createTablesButton.addActionListener(e -> {
             CreateDatabase database = new CreateDatabase();
             database.create();
+        });
+
+        requesButton.addActionListener(e->{
+            RequestsWindow requestsWindow = new RequestsWindow();
         });
 
         DefaultTableModel dtm = new DefaultTableModel(){

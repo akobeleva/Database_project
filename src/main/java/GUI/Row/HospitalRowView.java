@@ -1,7 +1,6 @@
 package GUI.Row;
 
 import DAL.ConnectionManager;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 
 import javax.swing.*;
 import java.util.HashMap;
@@ -18,16 +17,14 @@ public class HospitalRowView extends RowView {
     private JLabel nameLabel;
     private JLabel addressLabel;
     private JLabel mainDoctorLabel;
-    private JLabel phineLabel;
+    private JLabel phoneLabel;
     private JButton OkButton;
-    private Map<String, String> doctors = new HashMap<>();
+    private final Map<String, String> doctors = new HashMap<>();
 
     public HospitalRowView(String viewName, Mode mode) {
         super(viewName, mode);
         this.setContentPane(mainPanel);
-        OkButton.addActionListener(e -> {
-            okActionListener();
-        });
+        OkButton.addActionListener(e -> okActionListener());
 
         Vector vectorItems = ConnectionManager.select("SELECT doctor_id, d.surname || ' ' || d.name || ' ' || d.patronymic from doctors d", 2);
         for (int i = 0; i < vectorItems.size(); i++) {
@@ -35,6 +32,8 @@ public class HospitalRowView extends RowView {
             doctors.put(vec.get(1), vec.get(0));
             comboBox.addItem(vec.get(1));
         }
+        comboBox.setSelectedIndex(-1);
+
         pack();
     }
 

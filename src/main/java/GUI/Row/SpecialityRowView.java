@@ -16,9 +16,7 @@ public class SpecialityRowView extends RowView {
         super(viewName, mode);
         this.setContentPane(mainPanel);
 
-        OkButton.addActionListener(e->{
-            okActionListener();
-        });
+        OkButton.addActionListener(e-> okActionListener());
 
         this.pack();
     }

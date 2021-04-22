@@ -19,22 +19,21 @@ public class BuildingRowView extends RowView {
     private JLabel countDepLabel;
     private JButton OkButton;
     private JPanel mainPanel;
-    private Map<String, String> hospitals = new HashMap<>();
+    private final Map<String, String> hospitals = new HashMap<>();
 
     public BuildingRowView(String viewName, Mode mode){
         super(viewName, mode);
         this.setContentPane(mainPanel);
 
-        OkButton.addActionListener(e->{
-            okActionListener();
-        });
+        OkButton.addActionListener(e-> okActionListener());
 
         Vector vectorItems = ConnectionManager.select("SELECT hospital_id, name FROM hospitals", 2);
-        for (int i = 0; i < vectorItems.size(); i++){
-            Vector<String> vec = (Vector<String>) vectorItems.get(i);
+        for (Object vectorItem : vectorItems) {
+            Vector<String> vec = (Vector<String>) vectorItem;
             hospitals.put(vec.get(1), vec.get(0));
             comboBox.addItem(vec.get(1));
         }
+        comboBox.setSelectedIndex(-1);
         pack();
     }
 

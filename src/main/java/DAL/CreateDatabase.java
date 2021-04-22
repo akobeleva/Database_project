@@ -3,13 +3,13 @@ package DAL;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CreateDatabase {
-    private List<String> tablesName;
+    private final List<String> tablesName;
 
     public CreateDatabase(){
         tablesName = new LinkedList<>();
@@ -19,16 +19,14 @@ public class CreateDatabase {
         tablesName.add("Hospitals.sql");
         tablesName.add("Buildings.sql");
         tablesName.add("Departments.sql");
+        tablesName.add("DoctorsOfHospitals.sql");
+        tablesName.add("DoctorsOfPolyclinics.sql");
     }
 
     private String readScriptFromFile(String path){
         InputStream is = this.getClass().getResourceAsStream("/" + path);
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new InputStreamReader(is, "utf-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        BufferedReader reader;
+        reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
 
         return reader.lines().collect(Collectors.joining());
     }
@@ -58,9 +56,9 @@ public class CreateDatabase {
     }
 
     private List<String> dropTablesScripts(){
-        List<String> toDropTables = new LinkedList<>();
+        LinkedList<String> toDropTables = new LinkedList<>();
         for (String name : tablesName){
-            ((LinkedList<String>)toDropTables).addFirst(readScriptFromFile("drop/dropTables/" + name));
+            toDropTables.addFirst(readScriptFromFile("drop/dropTables/" + name));
         }
         return toDropTables;
     }
@@ -68,12 +66,8 @@ public class CreateDatabase {
     private List<String> readListOfScriptsFromFile(String path){
         InputStream is = this.getClass().getResourceAsStream("/" + path);
         System.out.println(is);
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new InputStreamReader(is,"utf-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        BufferedReader reader;
+        reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
         List<String> queries = new LinkedList<>();
         Object[] lines = reader.lines().toArray();
 

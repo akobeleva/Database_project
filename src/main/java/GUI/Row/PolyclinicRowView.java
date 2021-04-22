@@ -21,9 +21,7 @@ public class PolyclinicRowView extends RowView {
     public PolyclinicRowView(String viewName, Mode mode) {
         super(viewName, mode);
         this.setContentPane(mainPanel);
-        OkButton.addActionListener(e -> {
-            okActionListener();
-        });
+        OkButton.addActionListener(e -> okActionListener());
         pack();
     }
 
