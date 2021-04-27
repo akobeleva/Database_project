@@ -29,7 +29,8 @@ public class MainWindow extends JFrame{
     private JLabel tablesLabel;
     private JTable listTable;
     private JButton createTablesButton;
-    private JButton requesButton;
+    private JButton requestButton;
+    private JButton backButton;
 
     public MainWindow(){
         this.setTitle("Информационная система медицинских организаций");
@@ -43,8 +44,9 @@ public class MainWindow extends JFrame{
             database.create();
         });
 
-        requesButton.addActionListener(e->{
-            RequestsWindow requestsWindow = new RequestsWindow();
+        requestButton.addActionListener(e->{
+            WindowsManager.setMainFramesVisible("mainWindow", false);
+            WindowsManager.addMainFrame(new RequestsWindow(), "requestWindow");
         });
 
         DefaultTableModel dtm = new DefaultTableModel(){
@@ -63,7 +65,15 @@ public class MainWindow extends JFrame{
                     int rowIndex = listTable.rowAtPoint(e.getPoint());
                     String row = tables.get(rowIndex);
                     try {
-                        TableView tableView = (TableView)Class.forName(nameTables.get(row)).getConstructor(String.class).newInstance(row);
+                        WindowsManager.setMainFramesVisible("mainWindow", false);
+                        if (WindowsManager.isTableWindowExists(row)){
+                            WindowsManager.setTableWindowVisible(row, true);
+                            System.out.println("exist");
+                        }
+                        else {
+                            WindowsManager.addTableWindow((TableView)Class.forName(nameTables.get(row)).getConstructor(String.class).newInstance(row), row);
+                            System.out.println("not exist");
+                        }
                     } catch (InstantiationException instantiationException) {
                         instantiationException.printStackTrace();
                     } catch (IllegalAccessException illegalAccessException) {
@@ -78,7 +88,10 @@ public class MainWindow extends JFrame{
                 }
             }
         });
-
+        backButton.addActionListener(e->{
+            WindowsManager.setMainFramesVisible("mainWindow", false);
+            WindowsManager.setMainFramesVisible("startWindow", true);
+        });
         this.setVisible(true);
         this.setLocationRelativeTo(null);
     }

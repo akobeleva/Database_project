@@ -1,5 +1,7 @@
 package GUI.Table;
 
+import GUI.WindowsManager;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -14,6 +16,7 @@ public abstract class TableView extends JFrame{
     public JButton addButton;
     public JButton updateButton;
     public JScrollPane scrollPane;
+    private JButton backButton;
     public JTableHeader tableHeader;
     public String tableName;
     public DefaultTableModel dtm;
@@ -35,6 +38,11 @@ public abstract class TableView extends JFrame{
 
         addButton.addActionListener(e->{
             createNewRow();
+        });
+
+        backButton.addActionListener(e->{
+            WindowsManager.setTableWindowVisible(tableName, false);
+            WindowsManager.setMainFramesVisible("mainWindow", true);
         });
 
         this.setVisible(true);

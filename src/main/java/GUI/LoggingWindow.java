@@ -33,16 +33,26 @@ public class LoggingWindow extends JFrame{
                 String password = new String (passwordField.getPassword());
                 MyConnection conn = new MyConnection(username, password, "jdbc:oracle:thin:@localhost:1521:");
                 ConnectionManager connManager = new ConnectionManager(conn);
-                MainWindow window = new MainWindow();
-                this.setVisible(false);
+                WindowsManager.setMainFramesVisible("loggingWindow", false);
+                if (WindowsManager.isMainFrameExists("mainWindow")){
+                    WindowsManager.setMainFramesVisible("mainWindow", true);
+                }
+                else WindowsManager.addMainFrame(new MainWindow(), "mainWindow");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         });
 
+        JButton backButton = new JButton("Назад");
+        backButton.addActionListener(e->{
+            WindowsManager.setMainFramesVisible("loggingWindow", false);
+            WindowsManager.setMainFramesVisible("startWindow", true);
+        });
+
         loginPanel.add(usernamePanel);
         loginPanel.add(passwordPanel);
         loginPanel.add(loginButton);
+        loginPanel.add(backButton);
 
         this.add(loginPanel);
         this.setVisible(true);
