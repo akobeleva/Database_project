@@ -9,18 +9,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CreateDatabase {
-    private final List<String> tablesName;
-
+    private final List<String> tablesNameWithSeq;
+    private final List<String> tablesNameWithoutSeq;
     public CreateDatabase(){
-        tablesName = new LinkedList<>();
-        tablesName.add("Specialities.sql");
-        tablesName.add("Polyclinics.sql");
-        tablesName.add("Doctors.sql");
-        tablesName.add("Hospitals.sql");
-        tablesName.add("Buildings.sql");
-        tablesName.add("Departments.sql");
-        tablesName.add("DoctorsOfHospitals.sql");
-        tablesName.add("DoctorsOfPolyclinics.sql");
+        tablesNameWithSeq = new LinkedList<>();
+        tablesNameWithSeq.add("Specialities.sql");
+        tablesNameWithSeq.add("Polyclinics.sql");
+        tablesNameWithSeq.add("Doctors.sql");
+        tablesNameWithSeq.add("Hospitals.sql");
+        tablesNameWithSeq.add("Buildings.sql");
+        tablesNameWithSeq.add("Departments.sql");
+        tablesNameWithSeq.add("DoctorsOfHospitals.sql");
+        tablesNameWithSeq.add("DoctorsOfPolyclinics.sql");
+        tablesNameWithSeq.add("SpecialitiesOfServiceStaff.sql");
+        tablesNameWithSeq.add("ServiceStaff.sql");
+        tablesNameWithoutSeq = new LinkedList<>();
+        tablesNameWithoutSeq.add("Surgeons.sql");
+        tablesNameWithoutSeq.add("Radiographers.sql");
     }
 
     private String readScriptFromFile(String path){
@@ -33,7 +38,7 @@ public class CreateDatabase {
 
     private List<String> addSequencesScripts(){
         List<String> sequences = new LinkedList<>();
-        for (String name: tablesName){
+        for (String name: tablesNameWithSeq){
             sequences.add(readScriptFromFile("sequences/" + name));
         }
         return sequences;
@@ -41,7 +46,7 @@ public class CreateDatabase {
 
     private List<String> addAutoincrementScripts(){
         List<String> autoIncrements = new LinkedList<>();
-        for (String name : tablesName){
+        for (String name : tablesNameWithSeq){
             autoIncrements.add(readScriptFromFile("triggers/" + name));
         }
         return autoIncrements;
@@ -49,7 +54,7 @@ public class CreateDatabase {
 
     private List<String> dropSequencesScripts(){
         List<String> toDropSequences = new LinkedList<>();
-        for (String name : tablesName){
+        for (String name : tablesNameWithSeq){
             toDropSequences.add(readScriptFromFile("drop/dropSequences/" + name));
         }
         return toDropSequences;
@@ -57,7 +62,10 @@ public class CreateDatabase {
 
     private List<String> dropTablesScripts(){
         LinkedList<String> toDropTables = new LinkedList<>();
-        for (String name : tablesName){
+        for (String name : tablesNameWithSeq){
+            toDropTables.addFirst(readScriptFromFile("drop/dropTables/" + name));
+        }
+        for (String name : tablesNameWithoutSeq){
             toDropTables.addFirst(readScriptFromFile("drop/dropTables/" + name));
         }
         return toDropTables;
@@ -78,7 +86,13 @@ public class CreateDatabase {
     }
 
     private void insertDefaultData(){
-        for (String name : tablesName){
+        for (String name : tablesNameWithSeq){
+            List<String> list = readListOfScriptsFromFile("inserts/" + name);
+            if (!list.isEmpty()){
+                ConnectionManager.insert(list);
+            }
+        }
+        for (String name : tablesNameWithoutSeq){
             List<String> list = readListOfScriptsFromFile("inserts/" + name);
             if (!list.isEmpty()){
                 ConnectionManager.insert(list);
@@ -88,7 +102,10 @@ public class CreateDatabase {
 
     public void create(){
         List<String> createTablesScripts = new LinkedList<>();
-        for (String name : tablesName){
+        for (String name : tablesNameWithSeq){
+            createTablesScripts.add(readScriptFromFile("create/" + name));
+        }
+        for (String name : tablesNameWithoutSeq){
             createTablesScripts.add(readScriptFromFile("create/" + name));
         }
         ConnectionManager.executeQuery(dropTablesScripts());

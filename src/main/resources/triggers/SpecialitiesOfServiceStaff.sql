@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_spec_ss before INSERT ON spec_of_service_staff FOR each row BEGIN SELECT sq_spec_ss.NEXTVAL INTO :new.spec_ss_id FROM dual; END;

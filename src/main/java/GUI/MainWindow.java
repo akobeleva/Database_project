@@ -23,6 +23,10 @@ public class MainWindow extends JFrame{
             put("Отделения", "GUI.Table.DepartmentsTable");
             put("Врачи больниц", "GUI.Table.DoctorsOfHospitalsTable");
             put("Врачи поликлиник", "GUI.Table.DoctorsOfPolyclinicsTable");
+            put("Хирурги", "GUI.Table.SurgeonsTable");
+            put("Рентгенологи", "GUI.Table.RadiographersTable");
+            put("Специльности обслуживающего персонала", "GUI.Table.SpecialitiesOfServiceStaffTable");
+            put("Обслуживающий персонал", "GUI.Table.ServiceStaffTable");
         }
     };
     private JPanel mainPanel;

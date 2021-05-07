@@ -1,0 +1,39 @@
+package GUI.Table;
+
+import DAL.ConnectionManager;
+
+import java.util.Arrays;
+import java.util.Vector;
+
+public class RadiographersTable extends TableView{
+    String [] nameColumns = {"ID", "ФИО врача", "Коэффициент к з/п", "Длительность отпуска"};
+    public RadiographersTable(String name) {
+        super(name);
+        updateTable();
+    }
+
+    @Override
+    public void updateTable() {
+        Vector values = ConnectionManager.select("SELECT doctor_id, d.surname || ' ' || d.name || ' ' || d.patronymic, " +
+                "salary_kf, vacation_days FROM radiographers JOIN doctors d USING (doctor_id) " +
+                "ORDER BY doctor_id", 4);
+        Vector header = new Vector(Arrays.asList(nameColumns));
+        dtm.setDataVector(values, header);
+        table.setModel(dtm);
+    }
+
+    @Override
+    public void createNewRow() {
+
+    }
+
+    @Override
+    public void editRow(Integer id) {
+
+    }
+
+    @Override
+    public void deleteRow(Integer id) {
+
+    }
+}

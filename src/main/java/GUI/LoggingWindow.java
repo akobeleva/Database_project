@@ -31,7 +31,7 @@ public class LoggingWindow extends JFrame{
             try {
                 String username = usernameField.getText();
                 String password = new String (passwordField.getPassword());
-                MyConnection conn = new MyConnection(username, password, "jdbc:oracle:thin:@localhost:1521:");
+                MyConnection conn = new MyConnection("db project", "azkp4yzp", "jdbc:oracle:thin:@localhost:1521:");
                 ConnectionManager connManager = new ConnectionManager(conn);
                 WindowsManager.setMainFramesVisible("loggingWindow", false);
                 if (WindowsManager.isMainFrameExists("mainWindow")){

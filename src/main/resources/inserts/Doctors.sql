@@ -7,6 +7,6 @@ INSERT INTO doctors (surname, name, patronymic, speciality_id, dms, cms, profess
 INSERT INTO doctors (surname, name, patronymic, speciality_id, dms, cms, professor, docent, experience) VALUES ('Тринкер', 'Борис','Давидович', 2, 1, 0, 1, 0, 11)
 INSERT INTO doctors (surname, name, patronymic, speciality_id, dms, cms, professor, docent, experience) VALUES ('Иванов', 'Александр','Николаевич', 2, 0, 0, 0, 0, 6)
 INSERT INTO doctors (surname, name, patronymic, speciality_id, dms, cms, professor, docent, experience) VALUES ('Иванов', 'Петр','Федор', 3, 1, 0, 1, 0, 12)
-INSERT INTO doctors (surname, name, patronymic, speciality_id, dms, cms, professor, docent, experience) VALUES ('Мухаремова', 'Татьяна','Геннадьевна', 3, 1, 0, 1, 0, 19)
+INSERT INTO doctors (surname, name, patronymic, speciality_id, dms, cms, professor, docent, experience) VALUES ('Мухаремова', 'Татьяна','Геннадьевна', 1, 1, 0, 1, 0, 19)
 INSERT INTO doctors (surname, name, patronymic, speciality_id, dms, cms, professor, docent, experience) VALUES ('Аникеева', 'Елена','Трофимовна', 4, 0, 0, 0, 0, 1)
 INSERT INTO doctors (surname, name, patronymic, speciality_id, dms, cms, professor, docent, experience) VALUES ('Татарчуков', 'Руслан','Валентинович', 1, 0, 1, 0, 1, 4)

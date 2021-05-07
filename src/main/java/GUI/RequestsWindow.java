@@ -18,6 +18,7 @@ public class RequestsWindow extends JFrame{
     private JLabel label;
     private JTable table;
     private JPanel mainPanel;
+    private JButton backButton;
     private Map<String, String> nameRequests = new HashMap<String, String>(){{
         put("Перечень врачей по специальности", "GUI.Request.DoctorsOfSelectedSpecialityRequest");
     }
@@ -59,6 +60,11 @@ public class RequestsWindow extends JFrame{
                     }
                 }
             }
+        });
+
+        backButton.addActionListener(e->{
+            WindowsManager.setMainFramesVisible("requestWindow", false);
+            WindowsManager.setMainFramesVisible("mainWindow", true);
         });
 
         this.setVisible(true);
