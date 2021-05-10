@@ -1,6 +1,8 @@
 package GUI.Table;
 
 import DAL.ConnectionManager;
+import GUI.Row.Mode;
+import GUI.Row.SurgeonsRowView;
 
 import java.util.Arrays;
 import java.util.Vector;
@@ -9,6 +11,7 @@ public class SurgeonsTable extends TableView{
     String [] nameColumns = {"ID", "ФИО врача", "Число операций", "Число операций с летальным исходом"};
     public SurgeonsTable(String name) {
         super(name);
+        addButton.setVisible(false);
         updateTable();
     }
 
@@ -29,7 +32,9 @@ public class SurgeonsTable extends TableView{
 
     @Override
     public void editRow(Integer id) {
-
+        SurgeonsRowView editDoctor = new SurgeonsRowView("Изменение хирурга", Mode.EDIT);
+        editDoctor.setSelectedRow(id);
+        editDoctor.fillFields();
     }
 
     @Override

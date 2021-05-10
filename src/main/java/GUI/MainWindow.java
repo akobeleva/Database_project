@@ -27,6 +27,8 @@ public class MainWindow extends JFrame{
             put("Рентгенологи", "GUI.Table.RadiographersTable");
             put("Специльности обслуживающего персонала", "GUI.Table.SpecialitiesOfServiceStaffTable");
             put("Обслуживающий персонал", "GUI.Table.ServiceStaffTable");
+            put("Обслуживающий персонал больниц", "GUI.Table.ServiceStaffOfHospitalsTable");
+            put("Обслуживающий персонал поликлиник", "GUI.Table.ServiceStaffOfPolyclinicsTable");
         }
     };
     private JPanel mainPanel;

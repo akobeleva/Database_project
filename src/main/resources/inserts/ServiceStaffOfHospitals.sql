@@ -1,0 +1,5 @@
+INSERT INTO ss_of_hospitals (hospital_id, ss_id) VALUES (1, 9)
+INSERT INTO ss_of_hospitals (hospital_id, ss_id) VALUES (2, 6)
+INSERT INTO ss_of_hospitals (hospital_id, ss_id) VALUES (3, 4)
+INSERT INTO ss_of_hospitals (hospital_id, ss_id) VALUES (2, 3)
+INSERT INTO ss_of_hospitals (hospital_id, ss_id) VALUES (5, 8)

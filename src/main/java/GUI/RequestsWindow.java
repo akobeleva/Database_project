@@ -1,8 +1,6 @@
 package GUI;
 
-import DAL.CreateDatabase;
 import GUI.Request.RequestView;
-import GUI.Table.TableView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -21,6 +19,10 @@ public class RequestsWindow extends JFrame{
     private JButton backButton;
     private Map<String, String> nameRequests = new HashMap<String, String>(){{
         put("Перечень врачей по специальности", "GUI.Request.DoctorsOfSelectedSpecialityRequest");
+        put("Перечень обслуживающего персонала по специальности", "GUI.Request.ServiceStaffOfSelectedSpecialityRequest");
+        put("Перечень врачей, сделавших число операций не менее заданного", "GUI.Request.DoctorsWithOperationsRequest");
+        put("Перечень врачей, стаж которых не менее заданного", "GUI.Request.DoctorsOfSelectedExperienceRequest");
+        put("Перечень врачей указанных степени и звания", "GUI.Request.DoctorsOfSelectedDegreeRequest");
     }
     };
     public RequestsWindow(){

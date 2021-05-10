@@ -39,11 +39,11 @@ public class HospitalRowView extends RowView {
 
     @Override
     public void insertRow() {
-        if (mode == Mode.CREATE){
+        if (mode == Mode.CREATE) {
             ConnectionManager.insert("INSERT INTO hospitals (name, address, main_doctor_id, phone_number) VALUES ("
                     + getRowFromForm() + ")");
-        }
-        else ConnectionManager.executeQuery("UPDATE hospitals SET " + getRowFromForm() + "WHERE hospital_id = " + selectedRow);
+        } else
+            ConnectionManager.executeQuery("UPDATE hospitals SET " + getRowFromForm() + "WHERE hospital_id = " + selectedRow);
     }
 
     @Override
@@ -53,12 +53,11 @@ public class HospitalRowView extends RowView {
         String mainDoctor = doctors.get(comboBox.getSelectedItem());
         String phone = phoneTextField.getText();
         String row;
-        if (mode == Mode.CREATE){
+        if (mode == Mode.CREATE) {
             row = "'" + name + "'" + ", " + "'" + address + "'" + ", " + "'" + mainDoctor + "'" + ", " + phone;
-        }
-        else {
+        } else {
             row = "name = " + "'" + name + "'," + "address = " + "'" + address + "'," + "main_doctor_id = "
-                    + mainDoctor +"," + "phone_number = " +  "'" + phone + "'";
+                    + mainDoctor + "," + "phone_number = " + "'" + phone + "'";
         }
         return row;
     }

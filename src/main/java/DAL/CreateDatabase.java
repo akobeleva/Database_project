@@ -23,6 +23,8 @@ public class CreateDatabase {
         tablesNameWithSeq.add("DoctorsOfPolyclinics.sql");
         tablesNameWithSeq.add("SpecialitiesOfServiceStaff.sql");
         tablesNameWithSeq.add("ServiceStaff.sql");
+        tablesNameWithSeq.add("ServiceStaffOfHospitals.sql");
+        tablesNameWithSeq.add("ServiceStaffOfPolyclinics.sql");
         tablesNameWithoutSeq = new LinkedList<>();
         tablesNameWithoutSeq.add("Surgeons.sql");
         tablesNameWithoutSeq.add("Radiographers.sql");

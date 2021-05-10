@@ -1,6 +1,8 @@
 package GUI.Table;
 
 import DAL.ConnectionManager;
+import GUI.Row.Mode;
+import GUI.Row.RadiographersRowView;
 
 import java.util.Arrays;
 import java.util.Vector;
@@ -29,7 +31,9 @@ public class RadiographersTable extends TableView{
 
     @Override
     public void editRow(Integer id) {
-
+        RadiographersRowView editDoctor = new RadiographersRowView("Изменение рентгенолога", Mode.EDIT);
+        editDoctor.setSelectedRow(id);
+        editDoctor.fillFields();
     }
 
     @Override

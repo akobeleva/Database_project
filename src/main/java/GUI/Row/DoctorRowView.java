@@ -27,11 +27,11 @@ public class DoctorRowView extends RowView {
     private JCheckBox docentCheckBox;
     private final Map<String, String> specialities = new HashMap<>();
 
-    public DoctorRowView(String viewName, Mode mode){
+    public DoctorRowView(String viewName, Mode mode) {
         super(viewName, mode);
         this.setContentPane(mainPanel);
 
-        OkButton.addActionListener(e-> okActionListener());
+        OkButton.addActionListener(e -> okActionListener());
 
         Vector vectorItems = ConnectionManager.select("SELECT * from specialities", 2);
         for (Object vectorItem : vectorItems) {
@@ -48,20 +48,34 @@ public class DoctorRowView extends RowView {
         return b ? 1 : 0;
     }
 
-    private boolean stringToBoolean(String s){
+    private boolean stringToBoolean(String s) {
         return s.equals("1");
     }
 
     @Override
     public void insertRow() {
+        String tableName = new String();
+        if (getSpeciality().equals("1")) tableName = "surgeons";
+        if (getSpeciality().equals("3")) tableName = "radiographers";
         if (mode == Mode.CREATE) {
-            ConnectionManager.insert("INSERT INTO doctors(surname, name, patronymic, speciality_id, " +
+            if (getSpeciality().equals("1") || getSpeciality().equals("3")) {
+                ConnectionManager.executeQuery("BEGIN \n" +
+                        "INSERT INTO doctors(surname, name, patronymic, speciality_id, dms, cms, professor, docent, " +
+                        "experience) VALUES (" + getRowFromForm()+ "); \n" +
+                        "INSERT INTO " + tableName + "(doctor_id) SELECT max(doctor_id) FROM doctors;\n END;");
+            }
+            else ConnectionManager.insert("INSERT INTO doctors(surname, name, patronymic, speciality_id, " +
                     "dms, cms, professor, docent, experience) VALUES (" + getRowFromForm() + ")");
-        } else ConnectionManager.executeQuery("UPDATE doctors SET " + getRowFromForm() + "WHERE doctor_id = " + selectedRow);
+        } else
+            ConnectionManager.executeQuery("UPDATE doctors SET " + getRowFromForm() + "WHERE doctor_id = " + selectedRow);
+    }
+
+    public String getSpeciality() {
+        return specialities.get(comboBox.getSelectedItem());
     }
 
     @Override
-    public String getRowFromForm(){
+    public String getRowFromForm() {
         String surname = surnameTextField.getText();
         String name = nameTextField.getText();
         String patronymic = patronymicTextField.getText();
@@ -75,17 +89,16 @@ public class DoctorRowView extends RowView {
         if (mode == Mode.CREATE) {
             row = "'" + surname + "'" + ", " + "'" + name + "'" + ", " + "'" + patronymic + "'"
                     + ", " + speciality + ", " + dms + ", " + cms + ", " + professor + ", " + docent + ", " + exper;
-        }
-        else {
-            row  = "surname = " + "'" + surname + "'," + "name = " + "'" + name + "'," + "patronymic = "
-                        + "'" + patronymic + "'," + "speciality_id = " + speciality + "," + "dms = " + dms + "," + "cms = " + cms +
-                            "," + "professor = " + professor + "," + "docent = " + docent + "," + "experience = " + exper;
+        } else {
+            row = "surname = " + "'" + surname + "'," + "name = " + "'" + name + "'," + "patronymic = "
+                    + "'" + patronymic + "'," + "speciality_id = " + speciality + "," + "dms = " + dms + "," + "cms = " + cms +
+                    "," + "professor = " + professor + "," + "docent = " + docent + "," + "experience = " + exper;
         }
         return row;
     }
 
     @Override
-    public void fillFields(){
+    public void fillFields() {
         Vector vectorRows = ConnectionManager.select("SELECT * from doctors WHERE doctor_id = " + selectedRow, 10);
         Vector<String> row = (Vector<String>) vectorRows.get(0);
         surnameTextField.setText(row.get(1));
