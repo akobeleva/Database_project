@@ -21,10 +21,7 @@ public class StartWindow extends JFrame {
                         "jdbc:oracle:thin:@84.237.50.81:1521:");
                 ConnectionManager connManager = new ConnectionManager(conn);
                 WindowsManager.setMainFramesVisible("startWindow", false);
-                if (WindowsManager.isMainFrameExists("mainWindow")){
-                    WindowsManager.setMainFramesVisible("mainWindow", true);
-                }
-                else WindowsManager.addMainFrame(new MainWindow(), "mainWindow");
+                WindowsManager.addMainFrame(new EnterWindow(), "enterWindow");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }

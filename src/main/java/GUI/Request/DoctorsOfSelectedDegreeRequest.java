@@ -104,7 +104,7 @@ public class DoctorsOfSelectedDegreeRequest extends RequestView{
                     instComboBox.addItem(vec.get(1));
                 }
             }
+            typeComboBox.setSelectedIndex(-1);
         });
-        typeComboBox.setSelectedIndex(-1);
     }
 }

@@ -29,6 +29,9 @@ public class MainWindow extends JFrame{
             put("Обслуживающий персонал", "GUI.Table.ServiceStaffTable");
             put("Обслуживающий персонал больниц", "GUI.Table.ServiceStaffOfHospitalsTable");
             put("Обслуживающий персонал поликлиник", "GUI.Table.ServiceStaffOfPolyclinicsTable");
+            put("Пациенты", "GUI.Table.PatientsTable");
+            put("Карты поликлиник", "GUI.Table.PolyclinicCardTable");
+            put("Карты стационарного лечения больниц", "GUI.Table.HospitalCardTable");
         }
     };
     private JPanel mainPanel;
@@ -38,23 +41,36 @@ public class MainWindow extends JFrame{
     private JButton requestButton;
     private JButton backButton;
 
-    public MainWindow(){
+    public MainWindow(Role role){
         this.setTitle("Информационная система медицинских организаций");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(600, 500);
 
         this.setContentPane(mainPanel);
 
+        addButtonSettings();
+        addTableSettings();
+
+        this.setVisible(true);
+        this.setLocationRelativeTo(null);
+    }
+
+    private void addButtonSettings(){
         createTablesButton.addActionListener(e -> {
             CreateDatabase database = new CreateDatabase();
             database.create();
         });
-
         requestButton.addActionListener(e->{
             WindowsManager.setMainFramesVisible("mainWindow", false);
             WindowsManager.addMainFrame(new RequestsWindow(), "requestWindow");
         });
+        backButton.addActionListener(e->{
+            WindowsManager.setMainFramesVisible("mainWindow", false);
+            WindowsManager.setMainFramesVisible("startWindow", true);
+        });
+    }
 
+    private void addTableSettings(){
         DefaultTableModel dtm = new DefaultTableModel(){
             @Override
             public boolean isCellEditable(int i, int j){
@@ -94,12 +110,5 @@ public class MainWindow extends JFrame{
                 }
             }
         });
-        backButton.addActionListener(e->{
-            WindowsManager.setMainFramesVisible("mainWindow", false);
-            WindowsManager.setMainFramesVisible("startWindow", true);
-        });
-        this.setVisible(true);
-        this.setLocationRelativeTo(null);
     }
-
 }
