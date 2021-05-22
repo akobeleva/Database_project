@@ -1,0 +1,1 @@
+DECLARE v_dummy NUMBER; BEGIN SELECT 1 INTO v_dummy FROM user_sequences WHERE sequence_name LIKE 'SQ_USERS_PATIENTS'; EXCEPTION  WHEN no_data_found THEN  EXECUTE IMMEDIATE 'create sequence sq_users_patients START WITH 1 INCREMENT BY 1 NOMAXVALUE'; END;

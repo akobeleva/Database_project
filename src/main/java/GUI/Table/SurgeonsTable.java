@@ -1,6 +1,7 @@
 package GUI.Table;
 
 import DAL.ConnectionManager;
+import GUI.Role;
 import GUI.Row.Mode;
 import GUI.Row.SurgeonsRowView;
 
@@ -9,8 +10,8 @@ import java.util.Vector;
 
 public class SurgeonsTable extends TableView{
     String [] nameColumns = {"ID", "ФИО врача", "Число операций", "Число операций с летальным исходом"};
-    public SurgeonsTable(String name) {
-        super(name);
+    public SurgeonsTable(String name, String userID, Role role) {
+        super(name, userID, role);
         addButton.setVisible(false);
         updateTable();
     }

@@ -1,14 +1,15 @@
 package GUI.Table;
 
 import DAL.ConnectionManager;
+import GUI.Role;
 
 import java.util.Arrays;
 import java.util.Vector;
 
 public class SpecialitiesOfServiceStaffTable extends TableView{
     String [] nameColumns = {"ID", "Название"};
-    public SpecialitiesOfServiceStaffTable(String name) {
-        super(name);
+    public SpecialitiesOfServiceStaffTable(String name, String userID, Role role) {
+        super(name, userID, role);
         updateTable();
     }
 

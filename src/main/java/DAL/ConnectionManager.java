@@ -74,4 +74,7 @@ public class ConnectionManager {
             throwables.printStackTrace();
         }
     }
+    public static void close() throws SQLException {
+        conn.close();
+    }
 }

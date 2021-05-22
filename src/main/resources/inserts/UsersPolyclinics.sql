@@ -1,0 +1,1 @@
+INSERT INTO users_polyclinics (user_id, polyclinic_id) VALUES (4, 2)

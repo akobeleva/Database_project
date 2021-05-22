@@ -34,7 +34,7 @@ public class LoggingWindow extends JFrame{
                 MyConnection conn = new MyConnection(username, password, "jdbc:oracle:thin:@localhost:1521:");
                 ConnectionManager connManager = new ConnectionManager(conn);
                 WindowsManager.setMainFramesVisible("loggingWindow", false);
-                WindowsManager.addMainFrame(new EnterWindow(), "enterWindow");
+                WindowsManager.addMainFrame(new AuthorizationWindow(), "authWindow");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }

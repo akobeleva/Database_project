@@ -1,0 +1,1 @@
+INSERT INTO users_hospitals (user_id, hospital_id) VALUES (5, 1)

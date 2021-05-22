@@ -15,17 +15,16 @@ public class AuthorizationWindow extends JFrame {
     private JPanel mainPanel;
     private JLabel usernameLAbel;
     private JLabel passwordLabel;
-    private Map<String, Role> roles = new HashMap<String, Role>(){{
-        put("admin", Role.ADMIN);
-        put("patient", Role.PATIENT);
-        put("polyclinic_registry", Role.POlYCLINIC_REGISTRY);
-        put("hospital_registry", Role.HOSPITAL_REGISTRY);
-    }};
+    private JButton backButton;
 
     public AuthorizationWindow(){
         this.setContentPane(mainPanel);
         authButton.addActionListener(e->{
             authorization();
+        });
+        backButton.addActionListener(e->{
+            WindowsManager.setMainFramesVisible("authWindow", false);
+            WindowsManager.setMainFramesVisible("startWindow", true);
         });
         this.pack();
         this.setVisible(true);
@@ -35,19 +34,19 @@ public class AuthorizationWindow extends JFrame {
     private void authorization(){
         String username = usernameTextField.getText();
         String password = new String (passwordField.getPassword());
+        String userID = null;
         Role role = null;
-        Vector<String> vectorRole = ConnectionManager.select("SELECT role from users where (username = '" + username
+        Vector<String> vectorID = ConnectionManager.select("SELECT user_id from users where (username = '" + username
                 + "') and (password = '" + password + "')", 1);
-        if (vectorRole.size() == 0){
+        if (vectorID.size() == 0){
             ErrorWindow error = new ErrorWindow();
         }
         else {
-            for (Object vectorItem : vectorRole) {
+            for (Object vectorItem : vectorID) {
                 Vector<String> vec = (Vector<String>) vectorItem;
-                role = roles.get(vec.get(0));
-                System.out.println(vec.get(0));
+                userID = vec.get(0);
             }
-            WindowsManager.addMainFrame(new MainWindow(role), "mainWindow");
+            WindowsManager.addMainFrame(new MainWindow(userID), "mainWindow");
             WindowsManager.setMainFramesVisible("authWindow", false);
         }
     }

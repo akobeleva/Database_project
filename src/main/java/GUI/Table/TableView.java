@@ -1,5 +1,6 @@
 package GUI.Table;
 
+import GUI.Role;
 import GUI.WindowsManager;
 
 import javax.swing.*;
@@ -22,13 +23,17 @@ public abstract class TableView extends JFrame{
     public DefaultTableModel dtm;
     public JPopupMenu popup = new JPopupMenu();
     public Integer selectedRow;
+    public Role role;
+    public String userID;
 
-    public TableView(String name){
+    public TableView(String name, String userID, Role role){
         tableName = name;
         this.setTitle(tableName);
         this.setSize(1000, 800);
         this.setContentPane(mainPanel);
 
+        this.userID = userID;
+        this.role = role;
         addPopupMenu();
         addTableSettings();
 

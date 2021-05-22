@@ -1,5 +1,6 @@
 package GUI;
 
+import DAL.ConnectionManager;
 import DAL.CreateDatabase;
 import GUI.Table.TableView;
 
@@ -8,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,23 +32,39 @@ public class MainWindow extends JFrame{
             put("Обслуживающий персонал больниц", "GUI.Table.ServiceStaffOfHospitalsTable");
             put("Обслуживающий персонал поликлиник", "GUI.Table.ServiceStaffOfPolyclinicsTable");
             put("Пациенты", "GUI.Table.PatientsTable");
-            put("Карты поликлиник", "GUI.Table.PolyclinicCardTable");
+            put("Приемы поликлиник", "GUI.Table.PolyclinicCardTable");
             put("Карты стационарного лечения больниц", "GUI.Table.HospitalCardTable");
         }
     };
+    private Map<String, Role> roles = new HashMap<String, Role>(){{
+        put("admin", Role.ADMIN);
+        put("patient", Role.PATIENT);
+        put("polyclinic_registry", Role.POlYCLINIC_REGISTRY);
+        put("hospital_registry", Role.HOSPITAL_REGISTRY);
+    }};
     private JPanel mainPanel;
-    private JLabel tablesLabel;
+    private JLabel tableLabel;
     private JTable listTable;
     private JButton createTablesButton;
     private JButton requestButton;
     private JButton backButton;
+    private JButton createUserButton;
+    private String userID;
+    private Role role;
 
-    public MainWindow(Role role){
+    public MainWindow(String userID){
         this.setTitle("Информационная система медицинских организаций");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(600, 500);
 
         this.setContentPane(mainPanel);
+
+        this.userID = userID;
+        Vector<String> vectorRole = ConnectionManager.select("SELECT role from users where (user_id = '" + userID + "')", 1);
+        for (Object vectorItem : vectorRole) {
+            Vector<String> vec = (Vector<String>) vectorItem;
+            role = roles.get(vec.get(0));
+        }
 
         addButtonSettings();
         addTableSettings();
@@ -60,6 +78,12 @@ public class MainWindow extends JFrame{
             CreateDatabase database = new CreateDatabase();
             database.create();
         });
+        if (role != Role.ADMIN) createTablesButton.setVisible(false);
+        createUserButton.addActionListener(e->{
+            WindowsManager.setMainFramesVisible("mainWindow", false);
+            WindowsManager.addMainFrame(new RegistrationWindow(),"regWindow");
+        });
+        if (role != Role.ADMIN) createUserButton.setVisible(false);
         requestButton.addActionListener(e->{
             WindowsManager.setMainFramesVisible("mainWindow", false);
             WindowsManager.addMainFrame(new RequestsWindow(), "requestWindow");
@@ -67,6 +91,11 @@ public class MainWindow extends JFrame{
         backButton.addActionListener(e->{
             WindowsManager.setMainFramesVisible("mainWindow", false);
             WindowsManager.setMainFramesVisible("startWindow", true);
+            try {
+                ConnectionManager.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         });
     }
 
@@ -93,7 +122,8 @@ public class MainWindow extends JFrame{
                             System.out.println("exist");
                         }
                         else {
-                            WindowsManager.addTableWindow((TableView)Class.forName(nameTables.get(row)).getConstructor(String.class).newInstance(row), row);
+                            WindowsManager.addTableWindow((TableView)Class.forName(nameTables.get(row)).getConstructor(String.class, String.class, Role.class)
+                                    .newInstance(row, userID, role), row);
                             System.out.println("not exist");
                         }
                     } catch (InstantiationException instantiationException) {

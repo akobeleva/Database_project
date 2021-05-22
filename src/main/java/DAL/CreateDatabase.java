@@ -29,6 +29,9 @@ public class CreateDatabase {
         tablesNameWithSeq.add("HospitalCard.sql");
         tablesNameWithSeq.add("PolyclinicCard.sql");
         tablesNameWithSeq.add("Users.sql");
+        tablesNameWithSeq.add("UsersPatients.sql");
+        tablesNameWithSeq.add("UsersPolyclinics.sql");
+        tablesNameWithSeq.add("UsersHospitals.sql");
         tablesNameWithoutSeq = new LinkedList<>();
         tablesNameWithoutSeq.add("Surgeons.sql");
         tablesNameWithoutSeq.add("Radiographers.sql");
@@ -106,6 +109,16 @@ public class CreateDatabase {
         }
     }
 
+    List<String> dropRolesScripts(){
+        List<String> list = readListOfScriptsFromFile("drop/Roles.sql");
+        return list;
+    }
+
+    List<String> addRolesScripts(){
+        List<String> list = readListOfScriptsFromFile("create/Roles.sql");
+        return list;
+    }
+
     public void create(){
         List<String> createTablesScripts = new LinkedList<>();
         for (String name : tablesNameWithSeq){
@@ -116,9 +129,11 @@ public class CreateDatabase {
         }
         ConnectionManager.executeQuery(dropTablesScripts());
         ConnectionManager.executeQuery(dropSequencesScripts());
+        ConnectionManager.executeQuery(dropRolesScripts());
         ConnectionManager.executeQuery(createTablesScripts);
         ConnectionManager.executeQuery(addSequencesScripts());
         ConnectionManager.executeQuery(addAutoincrementScripts());
+        ConnectionManager.executeQuery(addRolesScripts());
         insertDefaultData();
     }
 }

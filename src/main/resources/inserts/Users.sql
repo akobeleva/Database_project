@@ -1,1 +1,5 @@
 INSERT INTO users (username, password, role) VALUES ('admin', 'admin','admin')
+INSERT INTO users (username, password, role) VALUES ('pat1', 'pat1','patient')
+INSERT INTO users (username, password, role) VALUES ('pat2', 'pat2','patient')
+INSERT INTO users (username, password, role) VALUES ('pol', 'pol','polyclinic_registry')
+INSERT INTO users (username, password, role) VALUES ('hosp', 'hosp','hospital_registry')

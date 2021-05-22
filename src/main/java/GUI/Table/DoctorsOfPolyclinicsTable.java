@@ -1,6 +1,7 @@
 package GUI.Table;
 
 import DAL.ConnectionManager;
+import GUI.Role;
 import GUI.Row.DoctorsOfPolyclinicsRowView;
 import GUI.Row.Mode;
 
@@ -9,8 +10,8 @@ import java.util.Vector;
 
 public class DoctorsOfPolyclinicsTable extends TableView{
     String [] nameColumns = {"ID", "Больница", "ФИО врача"};
-    public DoctorsOfPolyclinicsTable(String name) {
-        super(name);
+    public DoctorsOfPolyclinicsTable(String name, String userID, Role role) {
+        super(name, userID, role);
         updateTable();
     }
 
