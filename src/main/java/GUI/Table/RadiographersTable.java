@@ -8,10 +8,12 @@ import GUI.Row.RadiographersRowView;
 import java.util.Arrays;
 import java.util.Vector;
 
-public class RadiographersTable extends TableView{
-    String [] nameColumns = {"ID", "ФИО врача", "Коэффициент к з/п", "Длительность отпуска"};
+public class RadiographersTable extends TableView {
+    String[] nameColumns = {"ID", "ФИО врача", "Коэффициент к з/п", "Длительность отпуска"};
+
     public RadiographersTable(String name, String userID, Role role) {
         super(name, userID, role);
+        addButton.setVisible(false);
         updateTable();
     }
 
@@ -32,13 +34,14 @@ public class RadiographersTable extends TableView{
 
     @Override
     public void editRow(Integer id) {
-        RadiographersRowView editDoctor = new RadiographersRowView("Изменение рентгенолога", Mode.EDIT);
-        editDoctor.setSelectedRow(id);
-        editDoctor.fillFields();
+        if (role != Role.PATIENT) {
+            RadiographersRowView editDoctor = new RadiographersRowView("Изменение рентгенолога", Mode.EDIT);
+            editDoctor.setSelectedRow(id);
+            editDoctor.fillFields();
+        }
     }
 
     @Override
     public void deleteRow(Integer id) {
-
     }
 }

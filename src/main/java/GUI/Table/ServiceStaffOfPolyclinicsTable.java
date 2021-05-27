@@ -8,8 +8,9 @@ import GUI.Row.ServiceStaffOfPolyclinicsRowView;
 import java.util.Arrays;
 import java.util.Vector;
 
-public class ServiceStaffOfPolyclinicsTable extends TableView{
-    String [] nameColumns = {"ID", "Больница", "ФИО обслуживающего персонала"};
+public class ServiceStaffOfPolyclinicsTable extends TableView {
+    String[] nameColumns = {"ID", "Больница", "ФИО обслуживающего персонала"};
+
     public ServiceStaffOfPolyclinicsTable(String name, String userID, Role role) {
         super(name, userID, role);
         updateTable();
@@ -17,9 +18,18 @@ public class ServiceStaffOfPolyclinicsTable extends TableView{
 
     @Override
     public void updateTable() {
-        Vector values = ConnectionManager.select("SELECT id, p.name, ss.surname || ' ' || ss.name || ' ' || ss.patronymic " +
-                "FROM ss_of_polyclinics JOIN polyclinics p USING (polyclinic_id) " +
-                "JOIN service_staff ss USING (ss_id) ORDER BY id", 3);
+        Vector values;
+        if (role == Role.POlYCLINIC_REGISTRY) {
+            values = ConnectionManager.select("SELECT id, p.name, ss.surname || ' ' || ss.name || ' ' || ss.patronymic " +
+                    "FROM ss_of_polyclinics JOIN polyclinics p USING (polyclinic_id) " +
+                    "JOIN service_staff ss USING (ss_id) JOIN users_polyclinics USING (polyclinic_id) WHERE "+
+                    "(user_id = " + userID + ") ORDER BY id", 3);
+        }
+        else {
+            values = ConnectionManager.select("SELECT id, p.name, ss.surname || ' ' || ss.name || ' ' || ss.patronymic " +
+                    "FROM ss_of_polyclinics JOIN polyclinics p USING (polyclinic_id) " +
+                    "JOIN service_staff ss USING (ss_id) ORDER BY id", 3);
+        }
         Vector header = new Vector(Arrays.asList(nameColumns));
         dtm.setDataVector(values, header);
         table.setModel(dtm);

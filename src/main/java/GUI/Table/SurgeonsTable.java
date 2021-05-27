@@ -27,19 +27,17 @@ public class SurgeonsTable extends TableView{
     }
 
     @Override
-    public void createNewRow() {
-
-    }
+    public void createNewRow() {}
 
     @Override
     public void editRow(Integer id) {
-        SurgeonsRowView editDoctor = new SurgeonsRowView("Изменение хирурга", Mode.EDIT);
-        editDoctor.setSelectedRow(id);
-        editDoctor.fillFields();
+        if (role != Role.PATIENT) {
+            SurgeonsRowView editDoctor = new SurgeonsRowView("Изменение хирурга", Mode.EDIT);
+            editDoctor.setSelectedRow(id);
+            editDoctor.fillFields();
+        }
     }
 
     @Override
-    public void deleteRow(Integer id) {
-
-    }
+    public void deleteRow(Integer id) {}
 }

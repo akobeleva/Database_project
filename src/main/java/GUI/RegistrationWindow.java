@@ -19,6 +19,7 @@ public class RegistrationWindow extends JFrame {
     private JTextField usernameTextField;
     private JComboBox userComboBox;
     private JLabel userLabel;
+    private JButton backButton;
     private Map<String, String> roles = new HashMap<String, String>() {{
         put("Пациент", "patient");
         put("Регистратура поликлиники", "polyclinic_registry");
@@ -33,6 +34,10 @@ public class RegistrationWindow extends JFrame {
         setComboBoxItems();
         regButton.addActionListener(e -> {
             createUser();
+            WindowsManager.setMainFramesVisible("regWindow", false);
+            WindowsManager.setMainFramesVisible("mainWindow", true);
+        });
+        backButton.addActionListener(e->{
             WindowsManager.setMainFramesVisible("regWindow", false);
             WindowsManager.setMainFramesVisible("mainWindow", true);
         });

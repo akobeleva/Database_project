@@ -8,20 +8,20 @@ import java.sql.SQLException;
 
 public class LoggingWindow extends JFrame{
     public LoggingWindow(){
-        this.setTitle("Авторизация");
+        this.setTitle("Авторизация на сервере");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(400, 180);
         JPanel loginPanel = new JPanel();
         loginPanel.setLayout(new BoxLayout(loginPanel, BoxLayout.PAGE_AXIS));
 
         JPanel usernamePanel = new JPanel();
-        JLabel txtUser = new JLabel("Username: ");
+        JLabel txtUser = new JLabel("Логин:");
         JTextField usernameField = new JTextField(20);
         usernamePanel.add(txtUser);
         usernamePanel.add(usernameField);
 
         JPanel passwordPanel = new JPanel();
-        JLabel txtPassword = new JLabel("Password: ");
+        JLabel txtPassword = new JLabel("Пароль:");
         JPasswordField passwordField = new JPasswordField(20);
         passwordPanel.add(txtPassword);
         passwordPanel.add(passwordField);

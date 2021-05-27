@@ -8,10 +8,12 @@ import GUI.Row.PolyclinicRowView;
 import java.util.Arrays;
 import java.util.Vector;
 
-public class PolyclinicsTable extends TableView{
-    String [] nameColumns = {"ID", "Название", "Адрес", "Телефон", "Количество кабинетов"};
+public class PolyclinicsTable extends TableView {
+    String[] nameColumns = {"ID", "Название", "Адрес", "Телефон", "Количество кабинетов"};
+
     public PolyclinicsTable(String name, String userID, Role role) {
         super(name, userID, role);
+        if (role != Role.ADMIN) addButton.setVisible(false);
         updateTable();
     }
 
@@ -30,13 +32,16 @@ public class PolyclinicsTable extends TableView{
 
     @Override
     public void editRow(Integer id) {
-        PolyclinicRowView editPolyclinic = new PolyclinicRowView("Изменение поликлиники", Mode.EDIT);
-        editPolyclinic.setSelectedRow(id);
-        editPolyclinic.fillFields();
+        if (role == Role.ADMIN) {
+            PolyclinicRowView editPolyclinic = new PolyclinicRowView("Изменение поликлиники", Mode.EDIT);
+            editPolyclinic.setSelectedRow(id);
+            editPolyclinic.fillFields();
+        }
     }
 
     @Override
     public void deleteRow(Integer id) {
-        ConnectionManager.delete("DELETE FROM polyclinics WHERE polyclinic_id = " + id);
+        if (role == Role.ADMIN)
+            ConnectionManager.delete("DELETE FROM polyclinics WHERE polyclinic_id = " + id);
     }
 }

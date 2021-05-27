@@ -15,10 +15,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-public class MainWindow extends JFrame{
-    private Map<String, String> nameTables = new HashMap<String, String>(){{
+public class MainWindow extends JFrame {
+    private Map<String, String> nameTables = new HashMap<String, String>() {
+        {
             put("Врачи", "GUI.Table.DoctorsTable");
-            put("Специальности", "GUI.Table.SpecialitiesTable");
             put("Больницы", "GUI.Table.HospitalsTable");
             put("Поликлиники", "GUI.Table.PolyclinicsTable");
             put("Корпусы", "GUI.Table.BuildingsTable");
@@ -27,16 +27,10 @@ public class MainWindow extends JFrame{
             put("Врачи поликлиник", "GUI.Table.DoctorsOfPolyclinicsTable");
             put("Хирурги", "GUI.Table.SurgeonsTable");
             put("Рентгенологи", "GUI.Table.RadiographersTable");
-            put("Специльности обслуживающего персонала", "GUI.Table.SpecialitiesOfServiceStaffTable");
-            put("Обслуживающий персонал", "GUI.Table.ServiceStaffTable");
-            put("Обслуживающий персонал больниц", "GUI.Table.ServiceStaffOfHospitalsTable");
-            put("Обслуживающий персонал поликлиник", "GUI.Table.ServiceStaffOfPolyclinicsTable");
             put("Пациенты", "GUI.Table.PatientsTable");
-            put("Приемы поликлиник", "GUI.Table.PolyclinicCardTable");
-            put("Карты стационарного лечения больниц", "GUI.Table.HospitalCardTable");
         }
     };
-    private Map<String, Role> roles = new HashMap<String, Role>(){{
+    private Map<String, Role> roles = new HashMap<String, Role>() {{
         put("admin", Role.ADMIN);
         put("patient", Role.PATIENT);
         put("polyclinic_registry", Role.POlYCLINIC_REGISTRY);
@@ -52,10 +46,10 @@ public class MainWindow extends JFrame{
     private String userID;
     private Role role;
 
-    public MainWindow(String userID){
+    public MainWindow(String userID) {
         this.setTitle("Информационная система медицинских организаций");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(600, 500);
+        this.setSize(650, 500);
 
         this.setContentPane(mainPanel);
 
@@ -64,8 +58,10 @@ public class MainWindow extends JFrame{
         for (Object vectorItem : vectorRole) {
             Vector<String> vec = (Vector<String>) vectorItem;
             role = roles.get(vec.get(0));
+            System.out.println(role);
         }
 
+        addComponentsToTable();
         addButtonSettings();
         addTableSettings();
 
@@ -73,36 +69,58 @@ public class MainWindow extends JFrame{
         this.setLocationRelativeTo(null);
     }
 
-    private void addButtonSettings(){
+    private void addComponentsToTable() {
+        if (role == Role.ADMIN) {
+            nameTables.put("Специальности", "GUI.Table.SpecialitiesTable");
+            nameTables.put("Специльности обслуживающего персонала", "GUI.Table.SpecialitiesOfServiceStaffTable");
+            nameTables.put("Обслуживающий персонал", "GUI.Table.ServiceStaffTable");
+            nameTables.put("Обслуживающий персонал больниц", "GUI.Table.ServiceStaffOfHospitalsTable");
+            nameTables.put("Обслуживающий персонал поликлиник", "GUI.Table.ServiceStaffOfPolyclinicsTable");
+            nameTables.put("Приемы в поликлинике", "GUI.Table.PolyclinicCardTable");
+            nameTables.put("Карты стационарного лечения больниц", "GUI.Table.HospitalCardTable");
+        }
+        if (role == Role.PATIENT){
+            nameTables.put("Мои приемы в поликлинике", "GUI.Table.PolyclinicCardTable");
+            nameTables.put("Мои карты стационарного лечения больниц", "GUI.Table.HospitalCardTable");
+        }
+        if (role == Role.POlYCLINIC_REGISTRY){
+            nameTables.put("Обслуживающий персонал", "GUI.Table.ServiceStaffTable");
+            nameTables.put("Обслуживающий персонал поликлиники", "GUI.Table.ServiceStaffOfPolyclinicsTable");
+            nameTables.put("Приемы в поликлинике", "GUI.Table.PolyclinicCardTable");
+        }
+        if (role == Role.HOSPITAL_REGISTRY){
+            nameTables.put("Обслуживающий персонал", "GUI.Table.ServiceStaffTable");
+            nameTables.put("Обслуживающий персонал больницы", "GUI.Table.ServiceStaffOfHospitalsTable");
+            nameTables.put("Карты стационарного лечения больницы", "GUI.Table.HospitalCardTable");
+        }
+    }
+
+    private void addButtonSettings() {
         createTablesButton.addActionListener(e -> {
             CreateDatabase database = new CreateDatabase();
             database.create();
         });
         if (role != Role.ADMIN) createTablesButton.setVisible(false);
-        createUserButton.addActionListener(e->{
+        createUserButton.addActionListener(e -> {
             WindowsManager.setMainFramesVisible("mainWindow", false);
-            WindowsManager.addMainFrame(new RegistrationWindow(),"regWindow");
+            WindowsManager.addMainFrame(new RegistrationWindow(), "regWindow");
         });
         if (role != Role.ADMIN) createUserButton.setVisible(false);
-        requestButton.addActionListener(e->{
+        requestButton.addActionListener(e -> {
             WindowsManager.setMainFramesVisible("mainWindow", false);
-            WindowsManager.addMainFrame(new RequestsWindow(), "requestWindow");
+            WindowsManager.addMainFrame(new RequestsWindow(role), "requestWindow");
         });
-        backButton.addActionListener(e->{
+        backButton.addActionListener(e -> {
             WindowsManager.setMainFramesVisible("mainWindow", false);
-            WindowsManager.setMainFramesVisible("startWindow", true);
-            try {
-                ConnectionManager.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            WindowsManager.addMainFrame(new AuthorizationWindow(), "authWindow");
+            //WindowsManager.setMainFramesVisible("startWindow", true);
         });
     }
 
-    private void addTableSettings(){
-        DefaultTableModel dtm = new DefaultTableModel(){
+    private void addTableSettings() {
+        DefaultTableModel dtm = new DefaultTableModel() {
             @Override
-            public boolean isCellEditable(int i, int j){
+            public boolean isCellEditable(int i, int j) {
                 return false;
             }
         };
@@ -112,17 +130,16 @@ public class MainWindow extends JFrame{
         listTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2){
+                if (e.getClickCount() == 2) {
                     int rowIndex = listTable.rowAtPoint(e.getPoint());
                     String row = tables.get(rowIndex);
                     try {
                         WindowsManager.setMainFramesVisible("mainWindow", false);
-                        if (WindowsManager.isTableWindowExists(row)){
+                        if (WindowsManager.isTableWindowExists(row)) {
                             WindowsManager.setTableWindowVisible(row, true);
                             System.out.println("exist");
-                        }
-                        else {
-                            WindowsManager.addTableWindow((TableView)Class.forName(nameTables.get(row)).getConstructor(String.class, String.class, Role.class)
+                        } else {
+                            WindowsManager.addTableWindow((TableView) Class.forName(nameTables.get(row)).getConstructor(String.class, String.class, Role.class)
                                     .newInstance(row, userID, role), row);
                             System.out.println("not exist");
                         }

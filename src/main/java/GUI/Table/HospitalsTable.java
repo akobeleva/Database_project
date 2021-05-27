@@ -8,10 +8,12 @@ import GUI.Row.Mode;
 import java.util.Arrays;
 import java.util.Vector;
 
-public class HospitalsTable extends TableView{
-    String [] nameColumns = {"ID", "Название", "Адрес", "Главный врач", "Телефон"};
+public class HospitalsTable extends TableView {
+    String[] nameColumns = {"ID", "Название", "Адрес", "Главный врач", "Телефон"};
+
     public HospitalsTable(String name, String userID, Role role) {
         super(name, userID, role);
+        if (role != Role.ADMIN) addButton.setVisible(false);
         updateTable();
     }
 
@@ -31,13 +33,16 @@ public class HospitalsTable extends TableView{
 
     @Override
     public void editRow(Integer id) {
-        HospitalRowView editHospital = new HospitalRowView("зменение больницы", Mode.EDIT);
-        editHospital.setSelectedRow(id);
-        editHospital.fillFields();
+        if (role == Role.ADMIN) {
+            HospitalRowView editHospital = new HospitalRowView("зменение больницы", Mode.EDIT);
+            editHospital.setSelectedRow(id);
+            editHospital.fillFields();
+        }
     }
 
     @Override
     public void deleteRow(Integer id) {
-        ConnectionManager.delete("DELETE FROM hospitals WHERE hospital_id = " + id);
+        if (role == Role.ADMIN)
+            ConnectionManager.delete("DELETE FROM hospitals WHERE hospital_id = " + id);
     }
 }

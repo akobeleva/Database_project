@@ -24,6 +24,11 @@ public class PolyclinicCardRowView extends RowView{
     private JTextField hourTextField;
     private JTextField minTextField;
     private JLabel dateLabel;
+    private JLabel numberLabel;
+    private JLabel monthLabel;
+    private JLabel yearLabel;
+    private JLabel hourLabel;
+    private JLabel minuteLabel;
     private final Map<String, String> polyclinics = new HashMap<>();
     private final Map<String, String> patients = new HashMap<>();
     private final Map<String, String> doctors = new HashMap<>();

@@ -53,4 +53,8 @@ public class WindowsManager {
     public static boolean isRowWindowExists(String name){
         return rowViewStringMap.containsKey(name);
     }
+
+    public static void deleteMainFrame(String name){
+        mainFramesMap.remove(name);
+    }
 }

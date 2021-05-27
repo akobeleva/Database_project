@@ -6,6 +6,12 @@ import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
+import DAL.ConnectionManager;
+
+import javax.swing.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
 
 public class AuthorizationWindow extends JFrame {
     private JTextField usernameTextField;
@@ -17,31 +23,32 @@ public class AuthorizationWindow extends JFrame {
     private JLabel passwordLabel;
     private JButton backButton;
 
-    public AuthorizationWindow(){
+    public AuthorizationWindow() {
+        this.setTitle("Авторизация");
         this.setContentPane(mainPanel);
-        authButton.addActionListener(e->{
+        this.setSize(350, 200);
+        authButton.addActionListener(e -> {
             authorization();
         });
-        backButton.addActionListener(e->{
+        backButton.addActionListener(e -> {
             WindowsManager.setMainFramesVisible("authWindow", false);
             WindowsManager.setMainFramesVisible("startWindow", true);
+            WindowsManager.deleteMainFrame("authWindow");
         });
-        this.pack();
         this.setVisible(true);
         this.setLocationRelativeTo(null);
     }
 
-    private void authorization(){
+    private void authorization() {
         String username = usernameTextField.getText();
-        String password = new String (passwordField.getPassword());
+        String password = new String(passwordField.getPassword());
         String userID = null;
         Role role = null;
         Vector<String> vectorID = ConnectionManager.select("SELECT user_id from users where (username = '" + username
                 + "') and (password = '" + password + "')", 1);
-        if (vectorID.size() == 0){
+        if (vectorID.size() == 0) {
             ErrorWindow error = new ErrorWindow();
-        }
-        else {
+        } else {
             for (Object vectorItem : vectorID) {
                 Vector<String> vec = (Vector<String>) vectorItem;
                 userID = vec.get(0);

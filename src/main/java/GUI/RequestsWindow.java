@@ -19,18 +19,21 @@ public class RequestsWindow extends JFrame{
     private JButton backButton;
     private Map<String, String> nameRequests = new HashMap<String, String>(){{
         put("Перечень врачей по специальности", "GUI.Request.DoctorsOfSelectedSpecialityRequest");
-        put("Перечень обслуживающего персонала по специальности", "GUI.Request.ServiceStaffOfSelectedSpecialityRequest");
         put("Перечень врачей, сделавших число операций не менее заданного", "GUI.Request.DoctorsWithOperationsRequest");
         put("Перечень врачей, стаж которых не менее заданного", "GUI.Request.DoctorsOfSelectedExperienceRequest");
         put("Перечень врачей указанных степени и звания", "GUI.Request.DoctorsOfSelectedDegreeRequest");
     }
     };
-    public RequestsWindow(){
+    Role role;
+
+    public RequestsWindow(Role role){
         this.setTitle("Возможные запросы");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(600, 500);
 
         this.setContentPane(mainPanel);
+        this.role = role;
+        addComponentsToTable();
 
         DefaultTableModel dtm = new DefaultTableModel(){
             @Override
@@ -71,5 +74,23 @@ public class RequestsWindow extends JFrame{
 
         this.setVisible(true);
         this.setLocationRelativeTo(null);
+    }
+
+    private void addComponentsToTable() {
+        if (role == Role.ADMIN) {
+            nameRequests.put("Перечень обслуживающего персонала по специальности", "GUI.Request.ServiceStaffOfSelectedSpecialityRequest");
+            nameRequests.put("Перечень пациентов указанной больницы или отделения", "GUI.Request.PatientsOfSelectedHospitalRequest");
+            nameRequests.put("Перечень пациентов указанной больницы за некоторый период времени", "GUI.Request.PatientsOfSelectedHospitalAndTimeRequest");
+            nameRequests.put("Перечень пациентов, наблюдающихся у указанного врача", "GUI.Request.PatientsOfSelectedPolyclinicAndDoctorRequest");
+        }
+        if (role == Role.POlYCLINIC_REGISTRY) {
+            nameRequests.put("Перечень обслуживающего персонала по специальности", "GUI.Request.ServiceStaffOfSelectedSpecialityRequest");
+            nameRequests.put("Перечень пациентов, наблюдающихся у указанного врача", "GUI.Request.PatientsOfSelectedPolyclinicAndDoctorRequest");
+        }
+        if (role == Role.HOSPITAL_REGISTRY) {
+            nameRequests.put("Перечень обслуживающего персонала по специальности", "GUI.Request.ServiceStaffOfSelectedSpecialityRequest");
+            nameRequests.put("Перечень пациентов указанной больницы или отделения", "GUI.Request.PatientsOfSelectedHospitalRequest");
+            nameRequests.put("Перечень пациентов указанной больницы за некоторый период времени", "GUI.Request.PatientsOfSelectedHospitalAndTimeRequest");
+        }
     }
 }

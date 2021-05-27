@@ -29,7 +29,7 @@ public abstract class TableView extends JFrame{
     public TableView(String name, String userID, Role role){
         tableName = name;
         this.setTitle(tableName);
-        this.setSize(1000, 800);
+        this.setSize(800, 600);
         this.setContentPane(mainPanel);
 
         this.userID = userID;

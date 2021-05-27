@@ -9,9 +9,11 @@ import java.util.Arrays;
 import java.util.Vector;
 
 public class DoctorsTable extends TableView {
-    String [] nameColumns = {"ID", "Фамилия", "Имя", "Отчество", "Специальность", "докт. мед.наук", "канд. мед.наук", "Профессор", "Доцент", "Стаж"};
+    String[] nameColumns = {"ID", "Фамилия", "Имя", "Отчество", "Специальность", "докт. мед.наук", "канд. мед.наук", "Профессор", "Доцент", "Стаж"};
+
     public DoctorsTable(String name, String userID, Role role) {
         super(name, userID, role);
+        if (role == Role.PATIENT) addButton.setVisible(false);
         updateTable();
     }
 
@@ -31,13 +33,16 @@ public class DoctorsTable extends TableView {
 
     @Override
     public void editRow(Integer id) {
-        DoctorRowView editDoctor = new DoctorRowView("Изменение врача", Mode.EDIT);
-        editDoctor.setSelectedRow(id);
-        editDoctor.fillFields();
+        if (role != Role.PATIENT) {
+            DoctorRowView editDoctor = new DoctorRowView("Изменение врача", Mode.EDIT);
+            editDoctor.setSelectedRow(id);
+            editDoctor.fillFields();
+        }
     }
 
     @Override
     public void deleteRow(Integer id) {
-        ConnectionManager.delete("DELETE FROM doctors WHERE doctor_id = " + id);
+        if (role != Role.PATIENT)
+            ConnectionManager.delete("DELETE FROM doctors WHERE doctor_id = " + id);
     }
 }

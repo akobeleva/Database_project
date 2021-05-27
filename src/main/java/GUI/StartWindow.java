@@ -10,11 +10,11 @@ public class StartWindow extends JFrame {
     public StartWindow(){
         this.setTitle("ИСМО");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(300,300);
+        this.setSize(400,300);
         this.setLayout(null);
 
-        JButton nsuConnButton = new JButton("Connect to NSU server");
-        nsuConnButton.setBounds(50, 50, 200, 50);
+        JButton nsuConnButton = new JButton("Подключиться к серверу НГУ");
+        nsuConnButton.setBounds(50, 50, 280, 50);
         nsuConnButton.addActionListener(e -> {
             try {
                 MyConnection conn = new MyConnection("18208_kobeleva", "azkp4yzp",
@@ -22,14 +22,13 @@ public class StartWindow extends JFrame {
                 ConnectionManager connManager = new ConnectionManager(conn);
                 WindowsManager.setMainFramesVisible("startWindow", false);
                 WindowsManager.addMainFrame(new AuthorizationWindow(), "authWindow");
-                //new MainWindow(Role.ADMIN);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         });
 
-        JButton localConnButton = new JButton("Connect to local server");
-        localConnButton.setBounds(50, 150, 200, 50);
+        JButton localConnButton = new JButton("Подключиться к локальному серверу");
+        localConnButton.setBounds(50, 150, 280, 50);
         localConnButton.addActionListener(e-> {
             WindowsManager.setMainFramesVisible("startWindow", false);
             WindowsManager.addMainFrame(new LoggingWindow(), "loggingWindow");

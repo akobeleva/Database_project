@@ -52,7 +52,7 @@ public class HospitalCardRowView extends RowView{
 
     @Override
     public String getRowFromForm() {
-        String department = departments.get(hospComboBox.getSelectedItem());
+        String department = departments.get(depComboBox.getSelectedItem());
         String patient = patients.get(patComboBox.getSelectedItem());
         String startDay = startDayTextField.getText();
         String startMonth = startMonthTextField.getText();
@@ -62,8 +62,8 @@ public class HospitalCardRowView extends RowView{
         String endYear = endYearTextField.getText();
         String status = statusTextField.getText();
         String temp = tempTextField.getText();
-        String row = patient + "," + department + "," + "TO_DATE('" + startDay +"/" + startMonth + "/" + startYear + "', 'DD/MM/YYYY),"
-                + "TO_DATE('" + endDay +"/" + endMonth + "/" + endYear + "', 'DD/MM/YYYY)," + status + "," + temp;
+        String row = patient + "," + department + "," + "TO_DATE('" + startDay +"/" + startMonth + "/" + startYear + "', 'DD/MM/YYYY'),"
+                + "TO_DATE('" + endDay +"/" + endMonth + "/" + endYear + "', 'DD/MM/YYYY'),'" + status + "'," + temp;
         return row;
     }
 
